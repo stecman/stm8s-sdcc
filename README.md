@@ -26,6 +26,12 @@ Add a define to your compiler flags to select your device:
 | `STM8S003` | STM8S Value Line Low density devices |
 | `STM8S903` | STM8S Low density devices |
 
+### Register-only mode
+
+Define `NO_STDPERIPH_DRIVER` if you only care about using the registers defined in this library and none of the C functions.
+
+Note that this causes enums from peripheral headers to also be excluded currently (eg. `TIM4_PRESCALER_256`).
+
 ## Licence
 
 Copyright © 2015 STMicroelectronics International N.V.. All rights reserved.
