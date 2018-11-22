@@ -80,7 +80,7 @@
 /* Check the used compiler */
 #if defined(__CSMC__)
  #define _COSMIC_
-#elif defined(__SDCC)
+#elif defined(SDCC) || defined(__SDCC)
  #define _SDCC_
 #elif defined(__RCST7__)
  #define _RAISONANCE_
@@ -132,6 +132,12 @@
   /*!< Used with memory Models for code less than 64K */
   #define MEMCPY memcpy
  #endif /* STM8S208 or STM8S207 or STM8S007 or STM8AF62Ax or STM8AF52Ax */
+#elif defined(_SDCC_)
+ #define FAR  __far
+ #define NEAR // SDCC cannot handle __near
+ #define TINY __tiny
+ #define EEPROM __eeprom
+ #define CONST  const
 #else /*_IAR_*/
  #define FAR  __far
  #define NEAR __near
@@ -201,6 +207,10 @@
 #define     __O     volatile         /*!< defines 'write only' permissions    */
 #define     __IO    volatile         /*!< defines 'read / write' permissions  */
 
+#if defined(_SDCC_)
+#include <stdint.h>
+#else
+
 /*!< Signed integer types  */
 typedef   signed char     int8_t;
 typedef   signed short    int16_t;
@@ -220,6 +230,8 @@ typedef int8_t  s8;
 typedef uint32_t  u32;
 typedef uint16_t u16;
 typedef uint8_t  u8;
+
+#endif // _SDCC_
 
 
 typedef enum {FALSE = 0, TRUE = !FALSE} bool;
@@ -2753,7 +2765,7 @@ CFG_TypeDef;
 
 #ifdef _SDCC_
  #define INTERRUPT_HANDLER(a,b) void a(void) __interrupt (b)
- #undef INTERRUPT_HANDLER_TRAP
+ #define INTERRUPT_HANDLER_TRAP(a) void a(void) __trap
 #endif /* _SDCC_ */
 
 #if defined(_COSMIC_)
