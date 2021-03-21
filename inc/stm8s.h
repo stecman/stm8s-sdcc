@@ -209,6 +209,7 @@
 
 #if defined(_SDCC_)
 #include <stdint.h>
+#include <stdbool.h>
 #else
 
 /*!< Signed integer types  */
@@ -231,10 +232,9 @@ typedef uint32_t  u32;
 typedef uint16_t u16;
 typedef uint8_t  u8;
 
-#endif // _SDCC_
-
-
 typedef enum {FALSE = 0, TRUE = !FALSE} bool;
+
+#endif // _SDCC_
 
 typedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus, BitStatus, BitAction;
 
